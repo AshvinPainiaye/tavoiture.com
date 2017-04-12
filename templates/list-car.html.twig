@@ -1,22 +1,122 @@
 {% extends "layout.html.twig" %}
 
 {% block body %}
-    Welcome to your new Silex Application!qdf
+<style>
+select{
+  margin:auto 5px;
+  border-radius:0 !important;
+}
+</style>
+<div class="container text-center" style="margin:50px auto;">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline">
+        <div class="form-group">
+
+          <select class="form-control" name="type" method="POST">
+            <option disabled selected>Types</option>
+            {% for type in types %}
+            <option value="{{ type['id'] }}">{{ type['name'] }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+        <div class="form-group">
+          <select class="form-control" name="brand">
+            <option disabled selected>Marques</option>
+            {% for brand in brands %}
+            <option value="{{ brand['id'] }}">{{ brand['name'] }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+
+        <div class="form-group">
+          <select class="form-control" name="modele">
+            <option disabled selected>Modele</option>
+            {% for model in models %}
+            <option value="{{ model['id'] }}">{{ model['name'] }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+
+        <div class="form-group">
+          <select class="form-control" name="fuel">
+            <option disabled selected>Carburant</option>
+            {% for fuel in fuels %}
+            <option value="{{ fuel['id'] }}">{{ fuel['name'] }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+
+        <button type="submit" class="btn btn-default" style="border-radius:0; background-color:#7e7f7e;border-color:#7e7f7e; color:#fff;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+
+      </form>
+    </div>
+  </div>
+</div>
 
 
-{% for car in cars %}
-{{ car["id"] }}
 
+
+
+<style>
+h5,h6{
+  color: #495a61;
+}
+h5{
+  font-weight: bold;
+}
+.prix {
+  font-size:32px;
+  color: #3d8c98;
+}
+.prix-j{
+  font-size:20px;
+}
+
+.btn-details{
+  background-color: #f0716c;
+  border-color: #f0716c;
+  color: #fff;
+  border-radius:0;
+  padding: 10px 25px 10px 25px;
+}
+</style>
+<div class="container">
+  <div class="row">
+
+  {% for car in cars %}
+
+
+  <div class="col-md-4" style="margin-bottom: 30px;">
+    <img src="images/1.jpg" alt="header" class="img-responsive">
+    <div style="padding:10px; border:1px solid #ddd; border-top:none;">
+      <h5><i class="fa fa-car" style="margin-right:5px"></i> BMW - M4</h5>
+      <h6><i class="fa fa-map-marker" style="margin-right:5px"></i> {{ car['city'] }}</h6>
+
+      <div class="row">
+        <div class="col-md-8">
+          <span class="prix">{{ car['price'] }}€<span class="prix-j">/jour</span></span>
+        </div>
+
+
+        <div class="col-md-4">
+
+          <a href="/vehicule/details/{{ car['id'] }}" class="pull-right btn btn-default btn-details">Détails</a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 {% endfor %}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 
+
+</div>
+</div>
 {% endblock %}

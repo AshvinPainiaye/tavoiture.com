@@ -14,8 +14,6 @@ use tavoiture\Entity\Model;
 use tavoiture\Entity\Brand;
 use tavoiture\Entity\Type;
 
-
-
 class CarsController
 {
 
@@ -24,7 +22,29 @@ class CarsController
   {
     $cars = new Cars();
     $list = $cars->fetchAll();
-    return new Response($app['twig']->render('list-car.html.twig', array('cars' => $list)));
+
+
+    $fuel = new Fuel();
+    $fuels = $fuel->fetchAll();
+
+    $model = new Model();
+    $models = $model->fetchAll();
+
+    $brand = new Brand();
+    $brands = $brand->fetchAll();
+
+    $type = new Type();
+    $types = $type->fetchAll();
+
+
+    return new Response($app['twig']->render('list-car.html.twig', array(
+      'cars' => $list,
+      'fuels' => $fuels,
+      'models' => $models,
+      'brands' => $brands,
+      'types' => $types
+
+    )));
   }
 
 
@@ -35,14 +55,14 @@ class CarsController
     $fuel = new Fuel();
     $fuels = $fuel->fetchAll();
 
-$model = new Model();
-$models = $model->fetchAll();
+    $model = new Model();
+    $models = $model->fetchAll();
 
-$brand = new Brand();
-$brands = $brand->fetchAll();
+    $brand = new Brand();
+    $brands = $brand->fetchAll();
 
-$type = new Type();
-$types = $type->fetchAll();
+    $type = new Type();
+    $types = $type->fetchAll();
 
     return new Response($app['twig']->render('new-car.html.twig', array(
       'fuels' => $fuels,
@@ -79,5 +99,22 @@ $types = $type->fetchAll();
     return $app->redirect('/vehicule/new');
 
   }
+
+
+
+  public function viewAction(Application $app, Request $request)
+  {
+
+    $id = $request->get('id');
+
+    $cars = new Cars();
+    $car = $cars->findBy($id);
+
+    return new Response($app['twig']->render('details-car.html.twig', array('car' => $car)));
+  }
+
+
+
+
 
 }

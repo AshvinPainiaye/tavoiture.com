@@ -1,0 +1,90 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+{% set car = car[0] %}
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-12">
+      <h1 class="text-center">BMW - M4</h1>
+      <img src="/images/1.jpg" alt="header" class="img-responsive">
+
+
+      <div class="row" style="margin-top:30px;">
+        <div class="col-md-8">
+          <div style="border:1px solid black; padding:10px;">
+
+            <div class="row">
+              <div class="col-md-8">
+                Puissance : {{ car['horse_power'] }}ch <br>
+                Moteur : {{ car['engine'] }}<br>
+                Carburant : Essence<br>
+                Nombre de place : {{ car['nb_place'] }}<br>
+                Etat : {{ car['etat'] }}<br>
+                Couleur : {{ car['color'] }}<br>
+              </div>
+              <div class="col-md-4">
+                {{ car['address'] }}<br>
+                {{ car['city'] }}<br>
+                {{ car['zip_code'] }}<br>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <div style="border:1px solid black; padding:10px;">
+
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control datepicker" name="du" placeholder="du">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control datepicker" name="au" placeholder="au">
+              </div>
+
+              {{ car['price'] }}€<br>
+
+              <button type="submit" class="btn btn-default">Réserver</button>
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <h2 class="text-center">Commentaires</h2>
+
+
+      <div style="border:1px solid black; padding:10px; margin-top:20px;">
+        <h5>John Doe | 16/05/2017</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia laboriosam facilis totam atque, beatae. Nihil sit nam tempora cumque?
+          Sequi a reprehenderit, accusamus assumenda illum consectetur velit quam cumque veniam!</p>
+        </div>
+
+        <div style="border:1px solid black; padding:10px; margin-top:20px;">
+          <h5>John Doe | 16/05/2017</h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia laboriosam facilis totam atque, beatae. Nihil sit nam tempora cumque?
+            Sequi a reprehenderit, accusamus assumenda illum consectetur velit quam cumque veniam!</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    {% endblock %}

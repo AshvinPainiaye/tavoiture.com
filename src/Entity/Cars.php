@@ -41,6 +41,33 @@ class Cars
     return $stmt->fetchAll();
   }
 
+
+
+  public function getLast()
+  {
+    $connexion =  $this->getConnexion();
+    $sql = "SELECT * FROM cars ORDER BY id DESC LIMIT 3";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll();
+  }
+
+
+  public function findBy($id)
+  {
+    $connexion = $this->getConnexion();
+    $sql = "SELECT * FROM cars WHERE id = $id";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll();
+
+  }
+
+
+
   public function save()
   {
     $connexion =  $this->getConnexion();
@@ -59,7 +86,7 @@ class Cars
     $visibility = $this->getVisibility();
     $photo = $this->getPhoto();
     $fuelId = $this->getFuelId();
-    
+
     try {
       $sql = "INSERT INTO cars (model_id, users_id, horse_power, engine, nb_place, etat, color, price, address, city, zip_code, visibility, photo, fuel_id)"
       . " VALUES (:model_id, :users_id, :horse_power, :engine, :nb_place, :etat, :color, :price, :address, :city, :zip_code, :visibility, :photo, :fuel_id)";

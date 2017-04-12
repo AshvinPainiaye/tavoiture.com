@@ -1,5 +1,46 @@
 {% extends "layout.html.twig" %}
 
-{% block content %}
-    Welcome to your new Silex Application!
+
+{% block header %}
+<!-- DEBUT HEADER -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12" style="padding:0;">
+      <img src="/images/1.jpg" alt="header" class="img-responsive">
+    </div>
+  </div>
+</div>
+<!-- FIN HEADER -->
+{% endblock %}
+
+
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12" style="margin-top:50px;">
+      <h2 class="text-center">Les derniers véhicules</h2>
+    </div>
+  </div>
+
+  <div class="row"  style="margin:50px auto;">
+    {% for car in cars %}
+    <div class="col-md-4">
+      <a href="vehicule/details/{{ car['id'] }}">
+        <img src="images/1.jpg" alt="header" class="img-responsive">
+      </a>
+    </div>
+
+    {% endfor %}
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <a href="/vehicules" class="btn btn-default">Tous les véhicules</a>
+    </div>
+  </div>
+
+
+</div>
 {% endblock %}
