@@ -2,10 +2,8 @@
 namespace tavoiture\Provider\Controller;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class CarsControllerProvider implements ControllerProviderInterface
 {
@@ -17,8 +15,6 @@ class CarsControllerProvider implements ControllerProviderInterface
 		$controller->match('/vehicule/add', 'tavoiture\Controller\CarsController::AddAction')->bind('add-car');
 		$controller->match('/vehicule/details/{id}', 'tavoiture\Controller\CarsController::viewAction')->bind('details-car');
 		$controller->match('/mes-vehicules', 'tavoiture\Controller\CarsController::myCarsAction')->bind('my-cars');
-
-
 
 		return $controller;
 	}

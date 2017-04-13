@@ -1,6 +1,5 @@
 <?php
 namespace tavoiture\Entity;
-
 use tavoiture\Config\Database;
 
 class Brand
@@ -8,33 +7,22 @@ class Brand
 
   protected $_id;
   protected $_name;
+  protected $connexion;
 
-  public function getConnexion()
+  public function __construct()
   {
     $db = new Database();
-    return $db->getConnexion();
+    $this->connexion =  $db->getConnexion();
   }
-
 
   public function fetchAll()
   {
-    $connexion =  $this->getConnexion();
+    $connexion =  $this->connexion;
     $sql = "SELECT * FROM brand";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
     return $stmt->fetchAll();
-  }
-
-  public function findById($id)
-  {
-    $connexion =  $this->getConnexion();
-    $sql = "SELECT * FROM brand WHERE id = $id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-
-    $result = $stmt->fetchAll();
-    return $result[0];
   }
 
 

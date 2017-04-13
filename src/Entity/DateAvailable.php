@@ -12,29 +12,31 @@ class DateAvailable
   protected $_cars_id;
   protected $_date;
 
+  protected $connexion;
 
-  public function getConnexion()
+  public function __construct()
   {
     $db = new Database();
-    return $db->getConnexion();
+    $this->connexion =  $db->getConnexion();
   }
 
 
   public function fetchByCar($id)
   {
-    $connexion =  $this->getConnexion();
+    $connexion =  $this->connexion;
     $sql = "SELECT * FROM date_available WHERE cars_id = $id";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
-    return $stmt->fetchAll();
+    $result = $stmt->fetchAll();
+    return $result;
   }
 
 
 
   public function save($dates)
   {
-    $connexion =  $this->getConnexion();
+    $connexion =  $this->connexion;
 
     $datesArray = explode(",", $dates);
 

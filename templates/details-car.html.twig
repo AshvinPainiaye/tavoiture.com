@@ -7,7 +7,7 @@
 
     <div class="col-md-12">
       <h1 class="text-center">{{ car['brand'] }} - {{ car['model'] }}</h1>
-      <img src="/images/1.jpg" alt="header" class="img-responsive">
+    <img src="/images/{{ car['photo'] }}" class="img-responsive">
 
       <div class="row" style="margin-top:30px;">
         <div class="col-md-8">
@@ -36,7 +36,7 @@
           <div style="border:1px solid black; padding:10px;">
 
             <form action="/location/new">
-              <input type="hidden" name="cars_id" value="{{ car['id'] }}">
+              <input type="hidden" name="cars_id" value="{{ car['cars_id'] }}">
 
               <div class="form-group">
                 <input type="text" class="form-control datepicker" name="date_start" placeholder="du" required>

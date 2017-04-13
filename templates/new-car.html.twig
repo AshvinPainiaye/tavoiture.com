@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<form action="add">
+<form action="add" method="post" enctype="multipart/form-data">
 
   <select class="form-control" name="type" method="POST">
     <option disabled selected>Types</option>
@@ -46,7 +46,11 @@
     <label><input id="visibility" type="checkbox" name="visibility">visibility</label>
   </div>
 
-  <input type="text" name="photo" class="form-control" placeholder="photo">
+  <!--<input type="text" name="photo" class="form-control" placeholder="photo">-->
+
+      <input type="file" name="fileToUpload" id="fileToUpload">
+
+
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
 
@@ -58,13 +62,9 @@
 
 <script>
 $( function() {
-  $("#datepicker").click( function(){
-    console.log($("#datepicker").val())
-
-  })
-
-
-  $( "#datepicker" ).multiDatesPicker();
+  $( "#datepicker" ).multiDatesPicker({
+    minDate: 0
+  });
 } );
 </script>
 {% endblock %}

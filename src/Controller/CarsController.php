@@ -1,12 +1,9 @@
 <?php
 namespace tavoiture\Controller;
-
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use tavoiture\Entity\Cars;
 use tavoiture\Entity\Fuel;
 use tavoiture\Entity\Model;
@@ -25,6 +22,7 @@ class CarsController
   {
     $cars = new Cars();
     $list = $cars->fetchAll();
+
     $fuel = new Fuel();
     $fuels = $fuel->fetchAll();
 
@@ -43,9 +41,9 @@ class CarsController
       'models' => $models,
       'brands' => $brands,
       'types' => $types
-
     )));
   }
+
 
   /**
   * Liste des vehicules d'un proprietaire
@@ -53,9 +51,9 @@ class CarsController
   */
   public function myCarsAction(Application $app, Request $request)
   {
-
     $cars = new Cars();
     $list = $cars->findByUser(1);
+
     return new Response($app['twig']->render('my-cars.html.twig', array(
       'cars' => $list,
     )));
@@ -68,7 +66,6 @@ class CarsController
   */
   public function newAction(Application $app, Request $request)
   {
-
     $fuel = new Fuel();
     $fuels = $fuel->fetchAll();
 
@@ -90,7 +87,6 @@ class CarsController
   }
 
 
-
   /**
   * Insere le nouveau vehicule en bdd
   *
@@ -98,39 +94,83 @@ class CarsController
   public function addAction(Application $app, Request $request)
   {
 
+    // upload images
+    $target_dir = __DIR__.'/../../web/images/';
+    $filename = time() . basename($_FILES["fileToUpload"]["name"]);
+    $target_file = $target_dir . $filename;
+    $uploadOk = 1;
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+    // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+      echo "File is an image - " . $check["mime"] . ".";
+      $uploadOk = 1;
+    } else {
+      echo "File is not an image.";
+      $uploadOk = 0;
+    }
+
+    // Check if file already exists
+    if (file_exists($target_file)) {
+      echo "Sorry, file already exists.";
+      $uploadOk = 0;
+    }
+    // Check file size
+    if ($_FILES["fileToUpload"]["size"] > 9999999) {
+      echo "Sorry, your file is too large.";
+      $uploadOk = 0;
+    }
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+      $uploadOk = 0;
+    }
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+      echo "Sorry, your file was not uploaded.";
+      // if everything is ok, try to upload file
+    } else {
+      if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+      } else {
+        echo "Sorry, there was an error uploading your file.";
+      }
+    }
+
+
     $cars = new Cars();
 
-    if ($request->get('visibility') != null) {
+    if ($_POST['visibility'] != null) {
       $visibility = 1;
     } else {
       $visibility = 0;
     }
 
     $cars
-    ->setModelId($request->get('modele'))
+    ->setModelId($_POST['modele'])
     ->setUsersId(1)
-    ->setHorsePower($request->get('horsePower'))
-    ->setEngine($request->get('engine'))
-    ->setNbPlace($request->get('nbPlace'))
-    ->setEtat($request->get('etat'))
-    ->setColor($request->get('color'))
-    ->setPrice($request->get('price'))
-    ->setAddress($request->get('address'))
-    ->setCity($request->get('city'))
-    ->setZipCode($request->get('zipCode'))
+    ->setHorsePower($_POST['horsePower'])
+    ->setEngine($_POST['engine'])
+    ->setNbPlace($_POST['nbPlace'])
+    ->setEtat($_POST['etat'])
+    ->setColor($_POST['color'])
+    ->setPrice($_POST['price'])
+    ->setAddress($_POST['address'])
+    ->setCity($_POST['city'])
+    ->setZipCode($_POST['zipCode'])
     ->setVisibility($visibility)
-    ->setPhoto($request->get('photo'))
-    ->setFuelId($request->get('fuel'));
+    ->setPhoto($filename)
+    ->setFuelId($_POST['fuel']);
 
     $cars->save();
 
     $dates = new dateAvailable();
-    $datesAvailable = $request->get('dateAvailable');
+    $datesAvailable = $_POST['dateAvailable'];
     $dates->setCarsId($cars->getId());
     $dates->save($datesAvailable);
 
-    return $app->redirect('/vehicule/new');
-
+    return $app->redirect('/vehicule/details/' . $cars->getId());
   }
 
 
@@ -141,7 +181,6 @@ class CarsController
   */
   public function viewAction(Application $app, Request $request)
   {
-
     $id = $request->get('id');
 
     $cars = new Cars();
@@ -154,9 +193,5 @@ class CarsController
       'dates' => $datesAvailable
     )));
   }
-
-
-
-
 
 }

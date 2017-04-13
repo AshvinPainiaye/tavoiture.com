@@ -7,12 +7,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h1>Locations</h1>
+      <h1>Réservations</h1>
 
       <div class="btn-group" role="group" aria-label="...">
-        <a href="/location/pending" class="active btn btn-default">En attente</a>
-        <a href="/location/en-cours" class="btn btn-default">En cours de locations</a>
-        <a href="/location/terminees" class="btn btn-default">Terminée</a>
+        <a href="/reservation/pending" class="active btn btn-default">En attente</a>
+        <a href="/reservation/en-cours" class="btn btn-default">En cours de locations</a>
+        <a href="/reservation/terminees" class="btn btn-default">Terminée</a>
       </div>
 
     </div>
@@ -30,12 +30,6 @@
       <span class="prix">{{ location['price']}}€</span> <br>
       Du {{ location['date_start'] }}<br>
       Au {{ location['date_end'] }}<br>
-
-      De Ashvin Païniaye<br>
-
-      <a href="/location/valid/{{location['location']}}" class="btn btn-success">Valider</a>
-      <a href="/location/refused/{{location['location']}}" class="btn btn-danger">Refuser</a>
-
     </div>
   </div>
 {% endfor %}

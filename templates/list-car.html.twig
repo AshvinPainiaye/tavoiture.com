@@ -91,7 +91,7 @@ h5{
     {% for car in cars %}
 
     <div class="col-md-4" style="margin-bottom: 30px;">
-      <img src="images/1.jpg" alt="header" class="img-responsive">
+      <img src="/images/{{ car['photo'] }}" class="img-responsive">
       <div style="padding:10px; border:1px solid #ddd; border-top:none;">
         <h5><i class="fa fa-car" style="margin-right:5px"></i> {{ car['brand'] }} - {{ car['model'] }}</h5>
         <h6><i class="fa fa-map-marker" style="margin-right:5px"></i> {{ car['city'] }}</h6>
@@ -103,7 +103,7 @@ h5{
 
           <div class="col-md-4">
 
-            <a href="/vehicule/details/{{ car['id'] }}" class="pull-right btn btn-default btn-details">Détails</a>
+            <a href="/vehicule/details/{{ car['cars_id'] }}" class="pull-right btn btn-default btn-details">Détails</a>
           </div>
 
         </div>

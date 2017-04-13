@@ -40,7 +40,7 @@ class Cars
   public function fetchAll()
   {
     $connexion =  $this->connexion;
-    $sql = "SELECT id FROM cars ORDER BY id ASC";
+    $sql = "SELECT id FROM cars WHERE visibility = 1 ORDER BY id DESC";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
@@ -54,11 +54,10 @@ class Cars
   }
 
 
-
   public function getLast()
   {
     $connexion =  $this->connexion;
-    $sql = "SELECT * FROM cars ORDER BY id DESC LIMIT 3";
+    $sql = "SELECT * FROM cars WHERE visibility = 1 ORDER BY id DESC LIMIT 3";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
@@ -68,8 +67,6 @@ class Cars
 
   public function findByUser($id)
   {
-
-
     $connexion =  $this->connexion;
 
     $sql = "SELECT *, m.name as model, b.name as brand
@@ -94,7 +91,7 @@ class Cars
   {
     $connexion =  $this->connexion;
 
-    $sql = "SELECT *, m.name as model, f.name as fuel, b.name as brand
+    $sql = "SELECT *, c.id as cars_id, m.name as model, f.name as fuel, b.name as brand
     FROM cars as c
     JOIN model m
     ON c.model_id = m.id

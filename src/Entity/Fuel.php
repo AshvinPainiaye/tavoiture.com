@@ -10,16 +10,17 @@ class Fuel
   protected $_id;
   protected $_name;
 
-  public function getConnexion()
+  protected $connexion;
+
+  public function __construct()
   {
     $db = new Database();
-    return $db->getConnexion();
+    $this->connexion =  $db->getConnexion();
   }
-
 
   public function fetchAll()
   {
-    $connexion =  $this->getConnexion();
+    $connexion =  $this->connexion;
     $sql = "SELECT * FROM fuel";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
@@ -27,16 +28,6 @@ class Fuel
     return $stmt->fetchAll();
   }
 
-  public function findById($id)
-  {
-    $connexion =  $this->getConnexion();
-    $sql = "SELECT * FROM fuel WHERE id = $id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-
-    $result = $stmt->fetchAll();
-    return $result[0];
-  }
 
 
   /**

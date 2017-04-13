@@ -2,7 +2,7 @@
 
 use Silex\WebTestCase;
 
-class controllersTest extends WebTestCase
+/*class controllersTest extends WebTestCase
 {
     public function testGetHomepage()
     {
@@ -23,4 +23,4 @@ class controllersTest extends WebTestCase
 
         return $this->app = $app;
     }
-}
+}*/

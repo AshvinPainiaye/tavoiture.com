@@ -27,7 +27,7 @@
     {% for car in cars %}
     <div class="col-md-4">
       <a href="vehicule/details/{{ car['id'] }}">
-        <img src="images/1.jpg" alt="header" class="img-responsive">
+        <img src="/images/{{ car['photo'] }}" class="img-responsive">
       </a>
     </div>
 

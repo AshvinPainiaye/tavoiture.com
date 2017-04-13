@@ -5,12 +5,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h1>Locations</h1>
+      <h1>Réservations</h1>
 
       <div class="btn-group" role="group" aria-label="...">
-        <a href="/location/pending" class="btn btn-default">En attente</a>
-        <a href="/location/en-cours" class="active btn btn-default">En cours de locations</a>
-        <a href="/location/terminees" class="btn btn-default">Terminée</a>
+        <a href="/reservation/pending" class="btn btn-default">En attente</a>
+        <a href="/reservation/en-cours" class="btn btn-default">En cours de locations</a>
+        <a href="/reservation/terminees" class="active btn btn-default">Terminée</a>
       </div>
 
     </div>
@@ -21,7 +21,7 @@
     {% for location in locations %}
 
     <div class="col-md-4">
-          <img src="/images/{{ location['photo'] }}" class="img-responsive">
+    <img src="/images/{{ location['photo'] }}" class="img-responsive">
       <div style="padding:10px; border:1px solid red; border-top:none;">
         <h5>{{ location['brand']}} - {{ location['model']}}</h5>
         <h6>{{ location['city']}}</h6>

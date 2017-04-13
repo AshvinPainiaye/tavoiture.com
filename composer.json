@@ -25,6 +25,9 @@
         "philiplb/crudlex": "^0.11.0",
         "symfony/assetic-bundle": "^2.8"
     },
+    "require-dev": {
+      "phpunit/phpunit": "3.7.*"
+    },
     "autoload": {
         "psr-4": { "tavoiture\\": "src/" }
     },

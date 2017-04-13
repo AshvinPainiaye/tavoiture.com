@@ -2,24 +2,17 @@
 namespace tavoiture\Controller;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use tavoiture\Entity\Location;
 
 class LocationController
 {
 
-  public function pendingAction(Application $app, Request $request)
-  {
-    $location = new Location();
-    $list = $location->fetchPending();
-    return new Response($app['twig']->render('location-attente.html.twig', array('locations' => $list)));
-  }
-
-
-
+  /**
+  * Nouvelle Locations
+  *
+  */
   public function newAction(Application $app, Request $request)
   {
 
@@ -33,7 +26,6 @@ class LocationController
     ->setDateStart(date('y-m-d', strtotime($request->get('date_start'))))
     ->setDateEnd(date('y-m-d', strtotime($request->get('date_end'))))
     ->setDate(date('y-m-d h:i'));
-
     $location->save();
 
     return $app->redirect('/vehicule/details/' . $request->get('cars_id'));
@@ -41,51 +33,103 @@ class LocationController
   }
 
 
-
-  public function validAction(Application $app, Request $request)
+  /**
+  * Le proprietaire accepte la location
+  *
+  */
+  public function proprietaireValidAction(Application $app, Request $request)
   {
-
     $id = $request->get('id');
     $location = new Location();
     $location->valid($id);
 
     return $app->redirect('/location/en-cours');
-
-
-
   }
 
-
-  public function refusedAction(Application $app, Request $request)
+  /**
+  * Le proprietaire refuse la Locations
+  *
+  */
+  public function proprietaireRefusedAction(Application $app, Request $request)
   {
-
     $id = $request->get('id');
     $location = new Location();
     $location->refused($id);
 
     return $app->redirect('/location/pending');
-
-
-
   }
 
-  public function enCoursAction(Application $app, Request $request)
+
+  /**
+  * Locations en attente (page proprietaire)
+  *
+  */
+  public function proprietairePendingAction(Application $app, Request $request)
+  {
+    $location = new Location();
+    $list = $location->fetchLocationPending(1);
+
+    return new Response($app['twig']->render('location-attente.html.twig', array('locations' => $list)));
+  }
+
+
+  /**
+  * Locations en cours (page proprietaire)
+  *
+  */
+  public function proprietaireEnCoursAction(Application $app, Request $request)
   {
     $location = new Location();
 
-    return new Response($app['twig']->render('location-en-cours.html.twig', array('locations' => $location->fetchEnCours())));
-
-
+    return new Response($app['twig']->render('location-en-cours.html.twig', array('locations' => $location->fetchLocationEnCours(1))));
   }
 
-  public function finishedAction(Application $app, Request $request)
+
+  /**
+  * Locations terminées (page proprietaire)
+  *
+  */
+  public function proprietaireFinishedAction(Application $app, Request $request)
   {
     $location = new Location();
 
-    return new Response($app['twig']->render('location-terminees.html.twig', array('locations' => $location->fetchFinished())));
-
-
+    return new Response($app['twig']->render('location-terminees.html.twig', array('locations' => $location->fetchLocationFinished(1))));
   }
 
+
+  /**
+  * Locations en attente (page locataire)
+  *
+  */
+  public function locatairePendingAction(Application $app, Request $request)
+  {
+    $location = new Location();
+    $list = $location->fetchReservationPending(2);
+    return new Response($app['twig']->render('reservation-attente.html.twig', array('locations' => $list)));
+  }
+
+
+  /**
+  * Locations en cours (page locataire)
+  *
+  */
+  public function locataireEnCoursAction(Application $app, Request $request)
+  {
+    $location = new Location();
+
+    return new Response($app['twig']->render('reservation-en-cours.html.twig', array('locations' => $location->fetchReservationEnCours(2))));
+  }
+
+
+  /**
+  * Locations terminées (page locataire)
+  *
+  */
+  public function locataireFinishedAction(Application $app, Request $request)
+  {
+    $location = new Location();
+
+    return new Response($app['twig']->render('reservation-terminees.html.twig', array('locations' => $location->fetchReservationFinished(2))));
+  }
 
 }

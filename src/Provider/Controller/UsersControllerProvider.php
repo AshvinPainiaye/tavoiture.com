@@ -2,10 +2,8 @@
 namespace tavoiture\Provider\Controller;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class UsersControllerProvider implements ControllerProviderInterface
 {
