@@ -11,14 +11,12 @@
     {% endfor %}
   </select>
 
-
   <select class="form-control" name="brand">
     <option disabled selected>Marques</option>
     {% for brand in brands %}
     <option value="{{ brand['id'] }}">{{ brand['name'] }}</option>
     {% endfor %}
   </select>
-
 
   <select class="form-control" name="modele">
     <option disabled selected>Modele</option>
@@ -27,14 +25,12 @@
     {% endfor %}
   </select>
 
-
   <select class="form-control" name="fuel">
     <option disabled selected>Carburant</option>
     {% for fuel in fuels %}
     <option value="{{ fuel['id'] }}">{{ fuel['name'] }}</option>
     {% endfor %}
   </select>
-
 
   <input type="text" name="horsePower" class="form-control" placeholder="puissance">
   <input type="text" name="engine" class="form-control" placeholder="moteur">
@@ -45,13 +41,30 @@
   <input type="text" name="address" class="form-control" placeholder="adresse">
   <input type="text" name="city" class="form-control" placeholder="ville">
   <input type="text" name="zipCode" class="form-control" placeholder="code postal">
-  <input type="text" name="disponibilite" class="form-control" placeholder="disponibilite">
-  <input type="text" name="visibility" class="form-control" placeholder="visibility">
+  <input type="text" name="dateAvailable" id="datepicker" class="form-control" placeholder="disponibilite">
+  <div class="checkbox">
+    <label><input id="visibility" type="checkbox" name="visibility">visibility</label>
+  </div>
+
   <input type="text" name="photo" class="form-control" placeholder="photo">
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
 
 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/multidatespicker/jquery-ui.multidatespicker.js"></script>
+
+<script>
+$( function() {
+  $("#datepicker").click( function(){
+    console.log($("#datepicker").val())
+
+  })
 
 
+  $( "#datepicker" ).multiDatesPicker();
+} );
+</script>
 {% endblock %}

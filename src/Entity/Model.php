@@ -7,75 +7,85 @@ use tavoiture\Config\Database;
 class Model
 {
 
-    protected $_id;
-    protected $_type_id;
-    protected $_brand_id;
-    protected $_name;
+  protected $_id;
+  protected $_type_id;
+  protected $_brand_id;
+  protected $_name;
 
-    public function getConnexion()
-    {
-      $db = new Database();
-      return $db->getConnexion();
-    }
-
-
-    public function fetchAll()
-    {
-      $connexion =  $this->getConnexion();
-      $sql = "SELECT * FROM model";
-      $stmt = $connexion->prepare($sql);
-      $stmt->execute();
-
-      return $stmt->fetchAll();
-    }
+  public function getConnexion()
+  {
+    $db = new Database();
+    return $db->getConnexion();
+  }
 
 
-    /**
-     * GETTERS / SETTERS
-     */
-    public function getId()
-    {
-        return $this->_id;
-    }
+  public function fetchAll()
+  {
+    $connexion =  $this->getConnexion();
+    $sql = "SELECT * FROM model";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
 
-    public function setId($id)
-    {
-        $this->_id = $id;
-        return $this;
-    }
+    return $stmt->fetchAll();
+  }
 
-    public function getTypeId()
-    {
-        return $this->_type_id;
-    }
+  public function findById($id)
+  {
+    $connexion =  $this->getConnexion();
+    $sql = "SELECT * FROM model WHERE id = $id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
 
-    public function setTypeId($typeId)
-    {
-        $this->_type_id = $typeId;
-        return $this;
-    }
+    $result = $stmt->fetchAll();
+    return $result[0];
+  }
 
-    public function getBrandId()
-    {
-        return $this->_brand_id;
-    }
+  /**
+  * GETTERS / SETTERS
+  */
+  public function getId()
+  {
+    return $this->_id;
+  }
 
-    public function setBrandId($brandId)
-    {
-        $this->_brand_id = $brandId;
-        return $this;
-    }
+  public function setId($id)
+  {
+    $this->_id = $id;
+    return $this;
+  }
 
-    public function getName()
-    {
-        return $this->_name;
-    }
+  public function getTypeId()
+  {
+    return $this->_type_id;
+  }
 
-    public function setName($name)
-    {
-        $this->_name = $name;
-        return $this;
-    }
+  public function setTypeId($typeId)
+  {
+    $this->_type_id = $typeId;
+    return $this;
+  }
+
+  public function getBrandId()
+  {
+    return $this->_brand_id;
+  }
+
+  public function setBrandId($brandId)
+  {
+    $this->_brand_id = $brandId;
+    return $this;
+  }
+
+  public function getName()
+  {
+    return $this->_name;
+  }
+
+  public function setName($name)
+  {
+    $this->_name = $name;
+    return $this;
+  }
 
 
 

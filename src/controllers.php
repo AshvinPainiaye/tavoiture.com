@@ -17,6 +17,8 @@ return $app['twig']->render('index.html.twig', array());
 
 $app->mount('/', new tavoiture\Provider\Controller\DefaultControllerProvider);
 $app->mount('/', new tavoiture\Provider\Controller\CarsControllerProvider);
+$app->mount('/', new tavoiture\Provider\Controller\LocationControllerProvider);
+$app->mount('/', new tavoiture\Provider\Controller\UsersControllerProvider);
 
 
 

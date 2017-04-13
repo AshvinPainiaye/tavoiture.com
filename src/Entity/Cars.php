@@ -3,6 +3,11 @@
 namespace tavoiture\Entity;
 
 use tavoiture\Config\Database;
+use tavoiture\Entity\Brand;
+use tavoiture\Entity\Model;
+use tavoiture\Entity\Fuel;
+
+use PDO;
 
 class Cars
 {
@@ -23,54 +28,95 @@ class Cars
   protected $_fuel_id;
   protected $_engine;
 
+  protected $connexion;
 
-  public function getConnexion()
+  public function __construct()
   {
     $db = new Database();
-    return $db->getConnexion();
+    $this->connexion =  $db->getConnexion();
   }
 
 
   public function fetchAll()
   {
-    $connexion =  $this->getConnexion();
-    $sql = "SELECT * FROM cars";
+    $connexion =  $this->connexion;
+    $sql = "SELECT id FROM cars ORDER BY id ASC";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
-    return $stmt->fetchAll();
+    $results = $stmt->fetchAll();
+    $return = array();
+    foreach($results as $result)
+    {
+      $return[] = $this->find($result['id']);
+    }
+    return $return;
   }
 
 
 
   public function getLast()
   {
-    $connexion =  $this->getConnexion();
+    $connexion =  $this->connexion;
     $sql = "SELECT * FROM cars ORDER BY id DESC LIMIT 3";
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
-    return $stmt->fetchAll();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
 
-  public function findBy($id)
+  public function findByUser($id)
   {
-    $connexion = $this->getConnexion();
-    $sql = "SELECT * FROM cars WHERE id = $id";
+
+
+    $connexion =  $this->connexion;
+
+    $sql = "SELECT *, m.name as model, b.name as brand
+    FROM cars as c
+    JOIN model m
+    ON c.model_id = m.id
+    JOIN brand b
+    ON m.brand_id = b.id
+    JOIN users as u
+    ON c.users_id = u.id
+    WHERE c.users_id = :id";
 
     $stmt = $connexion->prepare($sql);
-    $stmt->execute();
+    $stmt->execute(array(':id' => $id));
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
 
-    return $stmt->fetchAll();
 
+
+  public function find($id)
+  {
+    $connexion =  $this->connexion;
+
+    $sql = "SELECT *, m.name as model, f.name as fuel, b.name as brand
+    FROM cars as c
+    JOIN model m
+    ON c.model_id = m.id
+    JOIN brand b
+    ON m.brand_id = b.id
+    JOIN fuel f
+    ON c.fuel_id = f.id
+    JOIN users as u
+    ON c.users_id = u.id
+    WHERE c.id = :id";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
   }
 
 
 
   public function save()
   {
-    $connexion =  $this->getConnexion();
+    $connexion =  $this->connexion;
 
     $modelId = $this->getModelId();
     $usersId = $this->getUsersId();
@@ -106,6 +152,10 @@ class Cars
       $stmt->bindParam(':photo', $photo);
       $stmt->bindParam(':fuel_id', $fuelId);
       $stmt->execute();
+
+      $lastId =  $connexion->lastInsertId();
+      $this->setId($lastId);
+
     } catch (Exception $e) {
       echo $e->getMessage();
     }

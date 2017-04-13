@@ -7,50 +7,62 @@ use tavoiture\Config\Database;
 class Fuel
 {
 
-    protected $_id;
-    protected $_name;
+  protected $_id;
+  protected $_name;
 
-    public function getConnexion()
-    {
-      $db = new Database();
-      return $db->getConnexion();
-    }
+  public function getConnexion()
+  {
+    $db = new Database();
+    return $db->getConnexion();
+  }
 
 
-    public function fetchAll()
-    {
-      $connexion =  $this->getConnexion();
-      $sql = "SELECT * FROM fuel";
-      $stmt = $connexion->prepare($sql);
-      $stmt->execute();
+  public function fetchAll()
+  {
+    $connexion =  $this->getConnexion();
+    $sql = "SELECT * FROM fuel";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
 
-      return $stmt->fetchAll();
-    }
+    return $stmt->fetchAll();
+  }
 
-    /**
-     * GETTERS / SETTERS
-     */
-    public function getId()
-    {
-        return $this->_id;
-    }
+  public function findById($id)
+  {
+    $connexion =  $this->getConnexion();
+    $sql = "SELECT * FROM fuel WHERE id = $id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
 
-    public function setId($id)
-    {
-        $this->_id = $id;
-        return $this;
-    }
+    $result = $stmt->fetchAll();
+    return $result[0];
+  }
 
-    public function getName()
-    {
-        return $this->_name;
-    }
 
-    public function setName($name)
-    {
-        $this->_name = $name;
-        return $this;
-    }
+  /**
+  * GETTERS / SETTERS
+  */
+  public function getId()
+  {
+    return $this->_id;
+  }
+
+  public function setId($id)
+  {
+    $this->_id = $id;
+    return $this;
+  }
+
+  public function getName()
+  {
+    return $this->_name;
+  }
+
+  public function setName($name)
+  {
+    $this->_name = $name;
+    return $this;
+  }
 
 
 

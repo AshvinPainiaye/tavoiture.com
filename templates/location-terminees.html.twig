@@ -1,0 +1,42 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1>Mes réservations</h1>
+
+      <div class="btn-group" role="group" aria-label="...">
+        <a href="/location/pending" class="btn btn-default">En attente</a>
+        <a href="/location/en-cours" class="btn btn-default">En cours de locations</a>
+        <a href="/location/terminees" class="active btn btn-default">Terminée</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+
+    {% for location in locations %}
+
+    <div class="col-md-4">
+      <img src="images/1.jpg" alt="header" class="img-responsive">
+      <div style="padding:10px; border:1px solid red; border-top:none;">
+        <h5>BMW - M4</h5>
+        <h6>SAINTE-SUZANNE</h6>
+        <span class="prix">900€</span> <br>
+        Du {{ location['date_start'] }}<br>
+        Au {{ location['date_end'] }}<br>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+
+</div>
+
+
+
+{% endblock %}

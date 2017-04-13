@@ -1,120 +1,259 @@
 <?php
 
+namespace tavoiture\Entity;
+
+use tavoiture\Config\Database;
+
+use PDO;
+
+
 class Location
 {
 
-    protected $_id;
-    protected $_cars_id;
-    protected $_users_id;
-    protected $_status_id;
-    protected $_etat;
-    protected $_payment;
-    protected $_date_start;
-    protected $_date_end;
-    protected $_date;
+  protected $_id;
+  protected $_cars_id;
+  protected $_users_id;
+  protected $_status_id;
+  protected $_etat;
+  protected $_payment;
+  protected $_date_start;
+  protected $_date_end;
+  protected $_date;
 
 
-    /**
-     * GETTERS / SETTERS
-     */
-    public function getId()
-    {
-        return $this->_id;
+  public function getConnexion()
+  {
+    $db = new Database();
+    return $db->getConnexion();
+  }
+
+
+
+
+  public function save()
+  {
+    $connexion =  $this->getConnexion();
+
+    $carsId = $this->getCarsId();
+    $usersId = $this->getUsersId();
+    $statusId = $this->getStatusId();
+    $etat = $this->getEtat();
+    $payment = $this->getPayment();
+    $dateStart = $this->getDateStart();
+    $dateEnd = $this->getDateEnd();
+    $date =  $this->getDate();
+
+    try {
+
+
+      $sql = "INSERT INTO location (cars_id, users_id, status_id,	etat,	payment, date_start, date_end, `date`)"
+      . "VALUES (:cars_id, :users_id, :status_id,	:etat,	:payment, :date_start, :date_end, :date)";
+      $stmt = $connexion->prepare($sql);
+      $stmt->bindParam(':cars_id', $carsId);
+      $stmt->bindParam(':users_id', $usersId);
+      $stmt->bindParam(':status_id',$statusId);
+      $stmt->bindParam(':etat', $etat);
+      $stmt->bindParam(':payment', $payment);
+      $stmt->bindParam(':date_start', $dateStart);
+      $stmt->bindParam(':date_end', $dateEnd);
+      $stmt->bindParam(':date', $date);
+      $stmt->execute();
+    } catch (Exception $e) {
+      echo $e->getMessage();
     }
 
-    public function setId($id)
-    {
-        $this->_id = $id;
-        return $this;
-    }
+  }
 
-    public function getCarsId()
-    {
-        return $this->_cars_id;
-    }
+  public function fetchPending()
+  {
+    $connexion =  $this->getConnexion();
+    $today = date('Y-m-d');
+    $id = 1;
 
-    public function setCarsId($carsId)
-    {
-        $this->_cars_id = $carsId;
-        return $this;
-    }
+    $sql = "SELECT *, l.id as location, m.id as model_id, m.name as model, b.id as brand_id, b.name as brand
+    FROM location as l
+    JOIN cars c
+    ON l.cars_id = c.id
+    JOIN model m
+    ON c.model_id = m.id
+    JOIN brand b
+    ON m.brand_id = b.id
+    WHERE l.status_id = 3 AND date_end > :today AND c.users_id = :id";
 
-    public function getUsersId()
-    {
-        return $this->_users_id;
-    }
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id, ':today' => $today));
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
 
-    public function setUsersId($usersId)
-    {
-        $this->_users_id = $usersId;
-        return $this;
-    }
+  }
 
-    public function getStatusId()
-    {
-        return $this->_status_id;
-    }
 
-    public function setStatusId($statusId)
-    {
-        $this->_status_id = $statusId;
-        return $this;
-    }
+  public function fetchEnCours()
+  {
 
-    public function getEtat()
-    {
-        return $this->_etat;
-    }
+    $connexion =  $this->getConnexion();
+    $today = date('Y-m-d');
+    $id = 1;
 
-    public function setEtat($etat)
-    {
-        $this->_etat = $etat;
-        return $this;
-    }
+    $sql = "SELECT *, m.name as model, b.name as brand
+    FROM location as l
+    JOIN cars c
+    ON l.cars_id = c.id
+    JOIN model m
+    ON c.model_id = m.id
+    JOIN brand b
+    ON m.brand_id = b.id
+    WHERE l.status_id = 1 AND date_end > :today AND c.users_id = :id";
 
-    public function getPayment()
-    {
-        return $this->_payment;
-    }
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id, ':today' => $today));
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
 
-    public function setPayment($payment)
-    {
-        $this->_payment = $payment;
-        return $this;
-    }
+  }
 
-    public function getDateStart()
-    {
-        return $this->_date_start;
-    }
+  public function fetchFinished()
+  {
 
-    public function setDateStart($dateStart)
-    {
-        $this->_date_start = $dateStart;
-        return $this;
-    }
 
-    public function getDateEnd()
-    {
-        return $this->_date_end;
-    }
+    $connexion =  $this->getConnexion();
+    $today = date('Y-m-d');
+    $id = 1;
 
-    public function setDateEnd($dateEnd)
-    {
-        $this->_date_end = $dateEnd;
-        return $this;
-    }
+    $sql = "SELECT *, m.name as model, b.name as brand
+    FROM location as l
+    JOIN cars c
+    ON l.cars_id = c.id
+    JOIN model m
+    ON c.model_id = m.id
+    JOIN brand b
+    ON m.brand_id = b.id
+    WHERE l.status_id != 4 AND l.status_id != 3 AND date_end < :today AND c.users_id = :id";
 
-    public function getDate()
-    {
-        return $this->_date;
-    }
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id, ':today' => $today));
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
 
-    public function setDate($date)
-    {
-        $this->_date = $date;
-        return $this;
-    }
+  }
+
+  public function valid($id)
+  {
+    $connexion =  $this->getConnexion();
+    $sql = "UPDATE location SET status_id = 1 WHERE `location`.`id` = $id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+  }
+
+  public function refused($id)
+  {
+    $connexion =  $this->getConnexion();
+    $sql = "UPDATE location SET status_id = 4 WHERE `location`.`id` = $id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+  }
+
+  /**
+  * GETTERS / SETTERS
+  */
+  public function getId()
+  {
+    return $this->_id;
+  }
+
+  public function setId($id)
+  {
+    $this->_id = $id;
+    return $this;
+  }
+
+  public function getCarsId()
+  {
+    return $this->_cars_id;
+  }
+
+  public function setCarsId($carsId)
+  {
+    $this->_cars_id = $carsId;
+    return $this;
+  }
+
+  public function getUsersId()
+  {
+    return $this->_users_id;
+  }
+
+  public function setUsersId($usersId)
+  {
+    $this->_users_id = $usersId;
+    return $this;
+  }
+
+  public function getStatusId()
+  {
+    return $this->_status_id;
+  }
+
+  public function setStatusId($statusId)
+  {
+    $this->_status_id = $statusId;
+    return $this;
+  }
+
+  public function getEtat()
+  {
+    return $this->_etat;
+  }
+
+  public function setEtat($etat)
+  {
+    $this->_etat = $etat;
+    return $this;
+  }
+
+  public function getPayment()
+  {
+    return $this->_payment;
+  }
+
+  public function setPayment($payment)
+  {
+    $this->_payment = $payment;
+    return $this;
+  }
+
+  public function getDateStart()
+  {
+    return $this->_date_start;
+  }
+
+  public function setDateStart($dateStart)
+  {
+    $this->_date_start = $dateStart;
+    return $this;
+  }
+
+  public function getDateEnd()
+  {
+    return $this->_date_end;
+  }
+
+  public function setDateEnd($dateEnd)
+  {
+    $this->_date_end = $dateEnd;
+    return $this;
+  }
+
+  public function getDate()
+  {
+    return $this->_date;
+  }
+
+  public function setDate($date)
+  {
+    $this->_date = $date;
+    return $this;
+  }
 
 
 
