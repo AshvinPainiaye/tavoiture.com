@@ -2,57 +2,172 @@
 
 {% block body %}
 
-<form action="add" method="post" enctype="multipart/form-data">
+<style>
+.form-control{
+  border-radius: 0;
+}
+</style>
 
-  <select class="form-control" name="type" method="POST">
-    <option disabled selected>Types</option>
-    {% for type in types %}
-    <option value="{{ type['id'] }}">{{ type['name'] }}</option>
-    {% endfor %}
-  </select>
+<div class="container">
 
-  <select class="form-control" name="brand">
-    <option disabled selected>Marques</option>
-    {% for brand in brands %}
-    <option value="{{ brand['id'] }}">{{ brand['name'] }}</option>
-    {% endfor %}
-  </select>
-
-  <select class="form-control" name="modele">
-    <option disabled selected>Modele</option>
-    {% for model in models %}
-    <option value="{{ model['id'] }}">{{ model['name'] }}</option>
-    {% endfor %}
-  </select>
-
-  <select class="form-control" name="fuel">
-    <option disabled selected>Carburant</option>
-    {% for fuel in fuels %}
-    <option value="{{ fuel['id'] }}">{{ fuel['name'] }}</option>
-    {% endfor %}
-  </select>
-
-  <input type="text" name="horsePower" class="form-control" placeholder="puissance">
-  <input type="text" name="engine" class="form-control" placeholder="moteur">
-  <input type="text" name="nbPlace" class="form-control" placeholder="place">
-  <input type="text" name="etat" class="form-control" placeholder="etat">
-  <input type="text" name="color" class="form-control" placeholder="couleur">
-  <input type="text" name="price" class="form-control" placeholder="prix">
-  <input type="text" name="address" class="form-control" placeholder="adresse">
-  <input type="text" name="city" class="form-control" placeholder="ville">
-  <input type="text" name="zipCode" class="form-control" placeholder="code postal">
-  <input type="text" name="dateAvailable" id="datepicker" class="form-control" placeholder="disponibilite">
-  <div class="checkbox">
-    <label><input id="visibility" type="checkbox" name="visibility">visibility</label>
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center" style="margin:50px auto;">Nouveau véhicule</h1>
+    </div>
   </div>
 
-  <!--<input type="text" name="photo" class="form-control" placeholder="photo">-->
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
 
-      <input type="file" name="fileToUpload" id="fileToUpload">
+      <form action="new" method="post" enctype="multipart/form-data">
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" name="type">
+                <option disabled selected>Types</option>
+                {% for type in types %}
+                <option value="{{ type['id'] }}">{{ type['name'] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" name="brand">
+                <option disabled selected>Marques</option>
+                {% for brand in brands %}
+                <option value="{{ brand['id'] }}">{{ brand['name'] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" name="modele">
+                <option disabled selected>Modele</option>
+                {% for model in models %}
+                <option value="{{ model['id'] }}">{{ model['name'] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
 
 
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" name="fuel">
+                <option disabled selected>Carburant</option>
+                {% for fuel in fuels %}
+                <option value="{{ fuel['id'] }}">{{ fuel['name'] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="horsePower" class="form-control" placeholder="puissance">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="engine" class="form-control" placeholder="moteur">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="nbPlace" class="form-control" placeholder="place">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="etat" class="form-control" placeholder="etat">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="color" class="form-control" placeholder="couleur">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="price" class="form-control" placeholder="prix">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <input type="text" name="address" class="form-control" placeholder="adresse">
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="city" class="form-control" placeholder="ville">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="zipCode" class="form-control" placeholder="code postal">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" name="dateAvailable" id="datepicker" class="form-control" placeholder="disponibilite">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="checkbox">
+                <label><input id="visibility" type="checkbox" name="visibility" checked>Visible sur le site</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 text-center">
+            <div class="form-group" style="margin:30px auto;">
+              <input type="file" name="fileToUpload" id="fileToUpload">
+            </div>
+
+            <button type="submit" class="btn btn-default" style="background-color: #f0716c; border-color: #f0716c; color: #fff; border-radius:0; padding: 10px 25px 10px 25px;">Confirmer</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
 
 
 {% endblock %}

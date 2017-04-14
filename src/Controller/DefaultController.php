@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use tavoiture\Entity\Cars;
 
-
 class DefaultController
 {
 
@@ -17,7 +16,7 @@ class DefaultController
   public function indexAction(Application $app, Request $request)
   {
     $cars = new Cars();
-    $list = $cars->getLast();
+    $list = $cars->fetchAll(5);
 
     return new Response($app['twig']->render('index.html.twig', array('cars' => $list)));
   }

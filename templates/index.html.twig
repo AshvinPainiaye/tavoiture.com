@@ -2,13 +2,31 @@
 
 
 {% block header %}
+
+<link rel="stylesheet" href="{{asset('/css/everslider.css')}}">
+
+
 <!-- DEBUT HEADER -->
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid header">
+
+  <div class="row text-center" style="padding-top:70px; padding-bottom:70px;">
+    <div class="col-md-6 col-md-offset-3">
+
+        <h1>TAVOITURE.COM</h1>
+        <form style="padding-top:24px;">
+          <div class="form-group">
+            <input type="text" class="form-control" style="border-radius:0; border:none;" placeholder="Search">
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+  <!--<div class="row">
     <div class="col-md-12" style="padding:0;">
       <img src="/images/1.jpg" alt="header" class="img-responsive">
     </div>
-  </div>
+  </div>-->
 </div>
 <!-- FIN HEADER -->
 {% endblock %}
@@ -18,29 +36,62 @@
 {% block body %}
 <div class="container">
   <div class="row">
-    <div class="col-md-12" style="margin-top:50px;">
+    <div class="col-md-12" style="margin:50px auto 30px auto;">
       <h2 class="text-center">Les derniers véhicules</h2>
     </div>
   </div>
 
-  <div class="row"  style="margin:50px auto;">
-    {% for car in cars %}
-    <div class="col-md-4">
-      <a href="vehicule/details/{{ car['id'] }}">
-        <img src="/images/{{ car['photo'] }}" class="img-responsive">
-      </a>
-    </div>
 
-    {% endfor %}
-  </div>
+  <div id="fullwidth_slider" class="everslider fullwidth-slider">
+              <ul class="es-slides">
+                {% for car in cars %}
+
+                  <li>
+                      <img src="/images/{{ car['photo'] }}" class="img-responsive">
+                      <div class="fullwidth-title">
+                          <div>
+                             <h3>{{ car['brand'] }} - {{ car['model'] }}</h3>
+                              <a href="/vehicule/details/{{car['cars_id']}}"><span class="contour-btn">Détails</span></a>
+                          </div>
+                      </div>
+                  </li>
+                  {% endfor %}
+
+              </ul>
+          </div>
 
 
   <div class="row">
     <div class="col-md-12 text-center">
-      <a href="/vehicules" class="btn btn-default">Tous les véhicules</a>
+      <a href="/vehicules" class="btn btn-default" style="background-color: #f0716c; border-color: #f0716c; color: #fff; border-radius:0; padding: 10px 25px 10px 25px;">Tous les véhicules</a>
     </div>
   </div>
 
 
 </div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript" src="/jquery.everslider.js"></script>
+
+<script type="text/javascript">
+$('#fullwidth_slider').everslider({
+  mode: 'carousel',
+  moveSlides: 1,
+  slideEasing: 'easeInOutCubic',
+  slideDuration: 700,
+  navigation: true,
+  keyboard: true,
+  ticker: true,
+  tickerAutoStart: true,
+  tickerHover: true,
+  tickerTimeout: 2000,
+  itemWidth: 374,
+  itemHeight: 279,
+  itemKeepRatio: true,
+});
+</script>
 {% endblock %}

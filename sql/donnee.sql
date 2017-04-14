@@ -34,9 +34,9 @@ INSERT INTO model (type_id, brand_id, name) VALUES
 
 
 INSERT INTO cars (model_id, users_id, horse_power, engine, nb_place, etat, color, price, address, city, zip_code, visibility, photo, fuel_id) VALUES
-(38, 1, 400, '2.0', 5, 'En super etat', 'blanc', 900, '15 rue des Saphirs Quartier Français', 'Sainte-Suzanne', '97441', 1, '1.jpg', 2),
-(1, 3, 70, 'TDI', 5, 'Bon', 'rouge', 59, '35 rue Alphone', 'Saint-Denis', '97400', 1, '1.jpg', 1),
-(47, 1, 400, '2.0', 2, 'Neuf', 'blanc', 1200, '15 rue des Saphirs Quartier Français', 'Sainte-Suzanne', '97441', 1, '1.jpg', 4);
+(38, 1, 400, '2.0', 5, 'En super etat', 'blanc', 900, '15 rue des Saphirs Quartier Français', 'Sainte-Suzanne', 97441, 1, '1.jpg', 2),
+(1, 3, 70, 'TDI', 5, 'Bon', 'rouge', 59, '35 rue Alphone', 'Saint-Denis', 97400, 1, '1.jpg', 1),
+(47, 1, 400, '2.0', 2, 'Neuf', 'blanc', 1200, '15 rue des Saphirs Quartier Français', 'Sainte-Suzanne', 97441, 1, '1.jpg', 4);
 
 INSERT INTO date_available (cars_id, `date`) VALUES
 (1, '2017-06-04'),
@@ -56,9 +56,9 @@ INSERT INTO date_available (cars_id, `date`) VALUES
 (2, '2017-07-05'),
 (2, '2017-08-05');
 
-INSERT INTO location (cars_id, users_id, status_id,	etat,	payment, date_start, date_end, `date`) VALUES
-(2, 1, 2, 'Correct', 1, '2017-04-08', '2017-04-10', '2017-04-06 14:32'),
-(1, 2, 1, 'Correct', 1, '2017-04-10', '2017-04-17', '2017-04-09 18:02');
+INSERT INTO location (cars_id, price, users_id, status_id,	etat,	payment, date_start, date_end, `date`, address, city, zip_code) VALUES
+(2, 413, 1, 2, 'Correct', 1, '2017-04-08', '2017-04-10', '2017-04-06 14:32', '34 rue des badamiers', 'Saint denis', 97400),
+(1, 1800, 2, 1, 'Correct', 1, '2017-04-10', '2017-04-17', '2017-04-09 18:02', '15 rue des Saphirs Quartier Français', 'Sainte-Suzanne', 97441);
 
 INSERT INTO comment (users_id, location_id,	comment, `date`) VALUES
 (2, 2, 'Superbe voiture !!!!', '2017-04-11 23:19');

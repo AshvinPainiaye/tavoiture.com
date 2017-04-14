@@ -30,7 +30,7 @@ h5{
 
   <div class="row" style="margin:40px auto;">
     <div class="col-md-12 text-center">
-      <a href="/vehicule/new" class="btn btn-default">Nouveau véhicule</a>
+      <a href="/vehicule/new" class="btn btn-default" style="background-color: #f0716c; border-color: #f0716c; color: #fff; border-radius:0; padding: 10px 25px 10px 25px;">Nouveau véhicule</a>
     </div>
   </div>
 
@@ -38,7 +38,7 @@ h5{
 
     {% for car in cars %}
 
-    <div class="col-md-4" style="margin-bottom: 30px;">
+    <div class="col-md-4 col-xs-6" style="margin-bottom: 30px;">
       <img src="/images/{{ car['photo'] }}" class="img-responsive">
       <div style="padding:10px; border:1px solid #ddd; border-top:none;">
         <h5><i class="fa fa-car" style="margin-right:5px"></i> {{ car['brand'] }} - {{ car['model'] }}</h5>

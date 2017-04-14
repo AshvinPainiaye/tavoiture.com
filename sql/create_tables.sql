@@ -87,12 +87,16 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `location` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `cars_id` INT NOT NULL,
+  `price` FLOAT NOT NULL,
   `users_id` INT NOT NULL,
   `status_id` INT NOT NULL,
   `etat` VARCHAR(100) NOT NULL COMMENT 'Etat du vehicule par le locataire',
   `payment` TINYINT NOT NULL,
   `date_start` DATE NOT NULL,
   `date_end` DATE NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `city` VARCHAR(150) NOT NULL,
+  `zip_code` INT(5) NOT NULL,
   `date` DATETIME NOT NULL COMMENT 'Date à laquelle la demande a été effectuée',
   CONSTRAINT fk_location_cars_id
     FOREIGN KEY (cars_id)

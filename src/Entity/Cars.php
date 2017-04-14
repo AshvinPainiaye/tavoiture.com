@@ -37,10 +37,14 @@ class Cars
   }
 
 
-  public function fetchAll()
+  public function fetchAll($limit = null)
   {
     $connexion =  $this->connexion;
-    $sql = "SELECT id FROM cars WHERE visibility = 1 ORDER BY id DESC";
+    if ($limit != null) {
+      $sql = "SELECT id FROM cars WHERE visibility = 1 ORDER BY id DESC LIMIT $limit";
+    } else {
+      $sql = "SELECT id FROM cars WHERE visibility = 1 ORDER BY id DESC";
+    }
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
@@ -51,17 +55,6 @@ class Cars
       $return[] = $this->find($result['id']);
     }
     return $return;
-  }
-
-
-  public function getLast()
-  {
-    $connexion =  $this->connexion;
-    $sql = "SELECT * FROM cars WHERE visibility = 1 ORDER BY id DESC LIMIT 3";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
 
@@ -107,6 +100,23 @@ class Cars
     $stmt->execute(array(':id' => $id));
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result;
+  }
+
+
+
+  public function prixNbJours($id, $debut, $fin)
+  {
+    $nbJoursTimestamp = strtotime($fin) - strtotime($debut);
+    $nbJours = $nbJoursTimestamp/86400;
+
+    $connexion =  $this->connexion;
+
+    $sql = "SELECT * FROM cars WHERE cars.id = :id";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $nbJours * $result['price'];
   }
 
 

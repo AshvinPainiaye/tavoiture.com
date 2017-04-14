@@ -2,12 +2,23 @@
 
 {% block body %}
 
+
+<style>
+h5,h6{
+  color: #495a61;
+}
+h5{
+  font-weight: bold;
+}
+</style>
+
+
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h1>Réservations</h1>
+      <h1 style="margin: 30px auto;">Réservations</h1>
 
-      <div class="btn-group" role="group" aria-label="...">
+      <div class="btn-group" style="margin-bottom:50px;" role="group" aria-label="...">
         <a href="/reservation/pending" class="btn btn-default">En attente</a>
         <a href="/reservation/en-cours" class="btn btn-default">En cours de locations</a>
         <a href="/reservation/terminees" class="active btn btn-default">Terminée</a>
@@ -20,16 +31,53 @@
 
     {% for location in locations %}
 
-    <div class="col-md-4">
-    <img src="/images/{{ location['photo'] }}" class="img-responsive">
-      <div style="padding:10px; border:1px solid red; border-top:none;">
-        <h5>{{ location['brand']}} - {{ location['model']}}</h5>
-        <h6>{{ location['city']}}</h6>
-        <span class="prix">{{ location['price']}}€</span> <br>
-        Du {{ location['date_start'] }}<br>
-        Au {{ location['date_end'] }}<br>
+    <div class="col-md-4" style="margin-bottom: 30px;">
+      <img src="/images/{{ location['photo'] }}" class="img-responsive">
+      <div style="padding:10px; border:1px solid #ddd; border-top:none;">
+        <h5><i class="fa fa-car" style="margin-right:5px"></i> {{ location['brand'] }} - {{ location['model'] }}</h5>
+        <h6>
+          <i class="fa fa-map-marker" style="position:absolute"></i>
+          <div style="margin-left:24px;">
+            {{ location['location_address'] }} <br> {{ location['location_city'] }} - {{ location['location_zipcode'] }}
+          </div>
+        </h6>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+
+                  <tr>
+                    <td class="td-titre">Prix</td>
+                    <td>{{ location['location_price'] }}€</td>
+                  </tr>
+                  <tr>
+                    <td class="td-titre">Du</td>
+                    <td>{{ location['date_start'] }}</td>
+                  </tr>
+                  <tr>
+                    <td class="td-titre">Au</td>
+                    <td>{{ location['date_end'] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <a href="#" class="pull-right btn btn-default" style="background-color: #f0716c; border-color: #f0716c; color: #fff; border-radius:0; padding: 10px 25px 10px 25px;">Commentaire</a>
+          </div>
+        </div>
+
       </div>
     </div>
+
+
     {% endfor %}
 
   </div>

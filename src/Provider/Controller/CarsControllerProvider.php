@@ -15,6 +15,8 @@ class CarsControllerProvider implements ControllerProviderInterface
 		$controller->match('/vehicule/add', 'tavoiture\Controller\CarsController::AddAction')->bind('add-car');
 		$controller->match('/vehicule/details/{id}', 'tavoiture\Controller\CarsController::viewAction')->bind('details-car');
 		$controller->match('/mes-vehicules', 'tavoiture\Controller\CarsController::myCarsAction')->bind('my-cars');
+		$controller->match('/vehicule/prix/{id}', 'tavoiture\Controller\CarsController::priceAction')->bind('price');
+
 
 		return $controller;
 	}

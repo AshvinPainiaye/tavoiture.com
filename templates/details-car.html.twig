@@ -2,25 +2,64 @@
 
 {% block body %}
 
+<style>
+.prix {
+  font-size:32px;
+  color: #3d8c98;
+}
+</style>
+
 <div class="container">
   <div class="row">
 
     <div class="col-md-12">
-      <h1 class="text-center">{{ car['brand'] }} - {{ car['model'] }}</h1>
-    <img src="/images/{{ car['photo'] }}" class="img-responsive">
+      <h1 class="text-center" style="margin: 40px auto;">{{ car['brand'] }} - {{ car['model'] }}</h1>
+      <img src="/images/{{ car['photo'] }}" class="img-responsive">
 
       <div class="row" style="margin-top:30px;">
         <div class="col-md-8">
-          <div style="border:1px solid black; padding:10px;">
+          <div style="border:1px solid #ddd; padding:10px;margin-bottom:20px;">
 
             <div class="row">
               <div class="col-md-8">
-                Puissance : {{ car['horse_power'] }}ch <br>
-                Moteur : {{ car['engine'] }}<br>
-                Carburant : {{ car['fuel'] }}<br>
-                Nombre de place : {{ car['nb_place'] }}<br>
-                Etat : {{ car['etat'] }}<br>
-                Couleur : {{ car['color'] }}<br>
+
+
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <tbody>
+
+                      <tr>
+                        <td class="td-titre">Marque - Modele</td>
+                        <td>{{ car['brand'] }} - {{ car['model'] }}</td>
+                      </tr>
+                      <tr>
+                        <td class="td-titre">Puissance</td>
+                        <td>{{ car['horse_power'] }}ch</td>
+                      </tr>
+                      <tr>
+                        <td class="td-titre">Moteur</td>
+                        <td>{{ car['engine'] }}</td>
+                      </tr>
+                      <tr>
+                        <td class="td-titre">Carburant</td>
+                        <td>{{ car['fuel'] }}</td>
+                      </tr>
+                      <tr>
+                        <td class="td-titre">Nombre de place</td>
+                        <td>{{ car['nb_place'] }}</td>
+                      </tr>
+                      <tr>
+                        <td class="td-titre">Etat</td>
+                        <td>{{ car['etat'] }}</td>
+                      </tr>
+                      <tr>
+                        <td class="td-titre">Couleur</td>
+                        <td>{{ car['color'] }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
               <div class="col-md-4">
                 {{ car['address'] }}<br>
@@ -33,21 +72,47 @@
         </div>
 
         <div class="col-md-4">
-          <div style="border:1px solid black; padding:10px;">
+          <div style="border:1px solid #ddd; padding:10px;">
 
-            <form action="/location/new">
+            <form action="/location/new" method="POST">
               <input type="hidden" name="cars_id" value="{{ car['cars_id'] }}">
+              <input type="hidden" id="inputPrice" name="price" value="{{ car['price'] }}">
 
               <div class="form-group">
-                <input type="text" class="form-control datepicker" name="date_start" placeholder="du" required>
+                <input type="text" class="form-control datepicker" id="du" style="border-radius:0;" name="date_start" placeholder="du" required="">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control datepicker" name="date_end" placeholder="au" required>
+                <input type="text" class="form-control datepicker" id="au" style="border-radius:0;" name="date_end" placeholder="au" required="">
               </div>
 
-              {{ car['price'] }}€<br>
+              <div class="form-group">
+                <div class="checkbox">
+                  <label><input id="lieu" type="checkbox" name="lieu_different">Lieu de départ différent de celle du proprietaire</label>
+                </div>
+              </div>
 
-              <button type="submit" class="btn btn-default">Réserver</button>
+              <div id="lieu_different" style="display:none;">
+                <div class="form-group">
+                  <input type="text" id="address" style="border-radius:0;" name="address" placeholder="adresse" required="">
+                </div>
+
+
+                <div class="form-group">
+                  <input type="text" id="city" style="border-radius:0;" name="city" placeholder="ville" required="">
+                </div>
+
+
+                <div class="form-group">
+                  <input type="text" id="zipcode" style="border-radius:0;" name="zipcode" placeholder="code postal" required="">
+                </div>
+              </div>
+
+              <div class="text-center">
+
+                <span class="prix">{{ car['price'] }}€</span> <br>
+                <button type="submit" class="btn btn-default" style="background-color: #f0716c; border-color: #f0716c; color: #fff; border-radius:0; padding: 10px 25px 10px 25px;">Réserver</button>
+              </div>
+
             </form>
 
           </div>
@@ -63,13 +128,13 @@
 
       <h2 class="text-center">Commentaires</h2>
 
-      <div style="border:1px solid black; padding:10px; margin-top:20px;">
+      <div style="border:1px solid #ddd; padding:10px; margin-top:20px;">
         <h5>John Doe | 16/05/2017</h5>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia laboriosam facilis totam atque, beatae. Nihil sit nam tempora cumque?
           Sequi a reprehenderit, accusamus assumenda illum consectetur velit quam cumque veniam!</p>
         </div>
 
-        <div style="border:1px solid black; padding:10px; margin-top:20px;">
+        <div style="border:1px solid #ddd; padding:10px; margin-top:20px;">
           <h5>John Doe | 16/05/2017</h5>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia laboriosam facilis totam atque, beatae. Nihil sit nam tempora cumque?
             Sequi a reprehenderit, accusamus assumenda illum consectetur velit quam cumque veniam!</p>
@@ -112,18 +177,44 @@
             }
           }
           return [false, ''];
+        },
+
+        onClose: function() {
+          var deb = $("#du").val();
+          var fin = $("#au").val();
+          if (deb != '' && fin != '') {
+
+            var myData = '&debut='+deb+'&fin='+fin;
+
+            $.ajax({
+              url: '/vehicule/prix/{{car['cars_id']}}',
+              type: 'POST',
+              data: myData,
+              dataType: 'json',
+              success: function (data) {
+                $(".prix").html(data.price + '€');
+                $("#inputPrice").val(data.price);
+              }
+
+            })
+          }
         }
+      })
 
 
+      $("#address, #city, #zipcode").attr("disabled", true);
+
+      $("#lieu").click(function() {
+        if( $("#lieu").is(":checked") ) {
+          $("#lieu_different").show("slow");
+          $("#address, #city, #zipcode").attr("disabled", false);
+        } else {
+          $("#lieu_different").hide("slow");
+          $("#address, #city, #zipcode").attr("disabled", true);
+        }
       });
 
-
-
-
-
-
-    });
-
+    })
 
     </script>
     {% endblock %}

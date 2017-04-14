@@ -1,0 +1,25 @@
+.header{
+  background-image: url('../images/1.jpg');
+  height: 100vh;
+  background-position: center;
+}
+
+.header h1{
+  font-size:50px;
+  color:#fff;
+  font-family:julius sans one;
+}
+
+
+.navbar-toggle{
+  float:left;
+  margin-left:15px;
+  border-radius: 0;
+}
+
+@media (max-width: 640px) {
+
+  .header h1{
+    font-size:30px;
+  }
+}

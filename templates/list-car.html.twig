@@ -8,7 +8,7 @@ select{
 }
 </style>
 <div class="container text-center" style="margin:50px auto;">
-  <div class="row">
+  <div class="row hidden-xs">
     <div class="col-md-12">
       <form class="form-inline">
         <div class="form-group">
@@ -84,13 +84,25 @@ h5{
   border-radius:0;
   padding: 10px 25px 10px 25px;
 }
+
+
+
+@media (max-width: 640px) {
+
+  .btn-details{
+    padding: 5px 20px 5px 20px;
+
+  }
+}
+
+
 </style>
 <div class="container">
   <div class="row">
 
     {% for car in cars %}
 
-    <div class="col-md-4" style="margin-bottom: 30px;">
+    <div class="col-md-4 col-xs-6" style="margin-bottom: 30px;">
       <img src="/images/{{ car['photo'] }}" class="img-responsive">
       <div style="padding:10px; border:1px solid #ddd; border-top:none;">
         <h5><i class="fa fa-car" style="margin-right:5px"></i> {{ car['brand'] }} - {{ car['model'] }}</h5>
