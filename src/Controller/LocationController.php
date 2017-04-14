@@ -17,23 +17,26 @@ class LocationController
   public function newAction(Application $app, Request $request)
   {
 
-$cars = new Cars();
-$car = $cars->find($_POST['cars_id']);
-if (isset($_POST['lieu_different']) && $_POST['lieu_different'] != null) {
-$address = $_POST['address'];
-$city = $_POST['city'];
-$zipCode = $_POST['zipcode'];
-} else {
-  $address = $car['address'];
-  $city = $car['city'];
-  $zipCode = $car['zip_code'];
-}
+    $user = $app['session']->get('user');
+
+
+    $cars = new Cars();
+    $car = $cars->find($_POST['cars_id']);
+    if (isset($_POST['lieu_different']) && $_POST['lieu_different'] != null) {
+      $address = $_POST['address'];
+      $city = $_POST['city'];
+      $zipCode = $_POST['zipcode'];
+    } else {
+      $address = $car['address'];
+      $city = $car['city'];
+      $zipCode = $car['zip_code'];
+    }
 
     $location = new Location();
     $location
     ->setCarsId($_POST['cars_id'])
     ->setPrice($_POST['price'])
-    ->setUsersId(2)
+    ->setUsersId($user['id'])
     ->setStatusId(3)
     ->setEtat('Non effectué')
     ->setPayment(0)
@@ -83,8 +86,10 @@ $zipCode = $_POST['zipcode'];
   */
   public function proprietairePendingAction(Application $app, Request $request)
   {
+    $user = $app['session']->get('user');
+
     $location = new Location();
-    $list = $location->fetchLocationPending(1);
+    $list = $location->fetchLocationPending($user['id']);
 
     return new Response($app['twig']->render('location-attente.html.twig', array('locations' => $list)));
   }
@@ -97,8 +102,9 @@ $zipCode = $_POST['zipcode'];
   public function proprietaireEnCoursAction(Application $app, Request $request)
   {
     $location = new Location();
+    $user = $app['session']->get('user');
 
-    return new Response($app['twig']->render('location-en-cours.html.twig', array('locations' => $location->fetchLocationEnCours(1))));
+    return new Response($app['twig']->render('location-en-cours.html.twig', array('locations' => $location->fetchLocationEnCours($user['id']))));
   }
 
 
@@ -109,8 +115,9 @@ $zipCode = $_POST['zipcode'];
   public function proprietaireFinishedAction(Application $app, Request $request)
   {
     $location = new Location();
+    $user = $app['session']->get('user');
 
-    return new Response($app['twig']->render('location-terminees.html.twig', array('locations' => $location->fetchLocationFinished(1))));
+    return new Response($app['twig']->render('location-terminees.html.twig', array('locations' => $location->fetchLocationFinished($user['id']))));
   }
 
 
@@ -121,7 +128,9 @@ $zipCode = $_POST['zipcode'];
   public function locatairePendingAction(Application $app, Request $request)
   {
     $location = new Location();
-    $list = $location->fetchReservationPending(2);
+    $user = $app['session']->get('user');
+
+    $list = $location->fetchReservationPending($user['id']);
     return new Response($app['twig']->render('reservation-attente.html.twig', array('locations' => $list)));
   }
 
@@ -133,8 +142,9 @@ $zipCode = $_POST['zipcode'];
   public function locataireEnCoursAction(Application $app, Request $request)
   {
     $location = new Location();
+    $user = $app['session']->get('user');
 
-    return new Response($app['twig']->render('reservation-en-cours.html.twig', array('locations' => $location->fetchReservationEnCours(2))));
+    return new Response($app['twig']->render('reservation-en-cours.html.twig', array('locations' => $location->fetchReservationEnCours($user['id']))));
   }
 
 
@@ -145,8 +155,9 @@ $zipCode = $_POST['zipcode'];
   public function locataireFinishedAction(Application $app, Request $request)
   {
     $location = new Location();
+    $user = $app['session']->get('user');
 
-    return new Response($app['twig']->render('reservation-terminees.html.twig', array('locations' => $location->fetchReservationFinished(2))));
+    return new Response($app['twig']->render('reservation-terminees.html.twig', array('locations' => $location->fetchReservationFinished($user['id']))));
   }
 
 }

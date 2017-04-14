@@ -8,6 +8,7 @@ use Silex\Provider\HttpFragmentServiceProvider;
 
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
+$app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new AssetServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new HttpFragmentServiceProvider());

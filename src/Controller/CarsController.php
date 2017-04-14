@@ -72,8 +72,13 @@ class CarsController
   */
   public function myCarsAction(Application $app, Request $request)
   {
+    $user = $app['session']->get('user');
+    if (empty($user)) {
+      return $app->redirect('/login');
+    }
+
     $cars = new Cars();
-    $list = $cars->findByUser(1);
+    $list = $cars->findByUser($user['id']);
 
     return new Response($app['twig']->render('my-cars.html.twig', array(
       'cars' => $list,
@@ -87,6 +92,12 @@ class CarsController
   */
   public function newAction(Application $app, Request $request)
   {
+
+    $user = $app['session']->get('user');
+    if (empty($user)) {
+      return $app->redirect('/login');
+    }
+
     $fuel = new Fuel();
     $fuels = $fuel->fetchAll();
 
@@ -155,9 +166,11 @@ class CarsController
         $visibility = 0;
       }
 
+
+
       $cars
       ->setModelId($_POST['modele'])
-      ->setUsersId(1)
+      ->setUsersId($user['id'])
       ->setHorsePower($_POST['horsePower'])
       ->setEngine($_POST['engine'])
       ->setNbPlace($_POST['nbPlace'])
@@ -179,7 +192,6 @@ class CarsController
       $dates->save($datesAvailable);
 
       return $app->redirect('/vehicule/details/' . $cars->getId());
-
 
     }
 

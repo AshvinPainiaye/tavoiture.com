@@ -61,7 +61,7 @@ h5{
                   </tr>
                   <tr>
                     <td class="td-titre">De</td>
-                    <td>Ashvin Païniaye</td>
+                    <td>{{ location['firstname'] }} {{ location['lastname'] }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -71,13 +71,8 @@ h5{
 
         </div>
       </div>
-
-
-      {% endfor %}
-
     </div>
-
-
+    {% endfor %}
   </div>
 </div>
 

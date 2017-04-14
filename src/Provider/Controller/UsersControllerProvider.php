@@ -11,6 +11,9 @@ class UsersControllerProvider implements ControllerProviderInterface
 	{
 		$controller = $app['controllers_factory'];
 		$controller->match('/account', 'tavoiture\Controller\UsersController::indexAction')->bind('account');
+		$controller->match('/login', 'tavoiture\Controller\UsersController::loginAction')->bind('login');
+		$controller->match('/logout', 'tavoiture\Controller\UsersController::logoutAction')->bind('logout');
+
 
 		return $controller;
 	}

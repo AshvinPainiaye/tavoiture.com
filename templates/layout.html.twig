@@ -42,89 +42,95 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-         <a class="navbar-brand visible-xs" href="/">TAVOITURE.COM</a>
+        <a class="navbar-brand visible-xs" href="/">TAVOITURE.COM</a>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Accueil</a></li>
           <li><a href="/vehicules">Les véhicules</a></li>
-          <li><a href="#">Contact</a></li>
+          {% if  app.session.get('user')  %}
+          <li><a href="/vehicule/new">Proposer son vehicule</a></li>
+          {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/account">Ashvin Païniaye</a></li>
-          <!--<li><a href="#">Connexion</a></li>
-          <li><a href="#">Inscription</a></li>-->
+          {% if  app.session.get('user')  %}
+          <li><a href="/account">{{ app.session.get('user')['firstname'] }} {{ app.session.get('user')['lastname'] }}</a></li>
+          <li><a href="/logout">Deconnexion</a></li>
+          {% else %}
+          <li><a href="/login">Connexion</a></li>
+          {% endif %}
+          <!--<li><a href="#">Inscription</a></li>-->
         </ul>
       </div>
     </div>
   </nav>
   <!-- FIN NAV -->
-  {% endblock %}
+{% endblock %}
 
-  {% block header %}
-  <section style="background-color:#3d8c98; height: 80px;" class="hidden-xs">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
+{% block header %}
+<section style="background-color:#3d8c98; height: 80px;" class="hidden-xs">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
 
-          <h1 style="margin:0; line-height: 80px; color:#fff;font-family:julius sans one;"><a href="/" style="text-decoration:none; color:#fff;">TAVOITURE.COM</a></h1>
-        </div>
-        <div class="col-sm-6">
-          <form style="padding-top:24px;">
-            <div class="form-group">
-              <input type="text" class="form-control" style="border-radius:0; border:none;" placeholder="Search">
-            </div>
-          </form>
-        </div>
+        <h1 style="margin:0; line-height: 80px; color:#fff;font-family:julius sans one;"><a href="/" style="text-decoration:none; color:#fff;">TAVOITURE.COM</a></h1>
+      </div>
+      <div class="col-sm-6">
+        <form style="padding-top:24px;">
+          <div class="form-group">
+            <input type="text" class="form-control" style="border-radius:0; border:none;" placeholder="Search">
+          </div>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section style="background-color:#3d8c98; height: 80px;" class="visible-xs">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <form style="padding-top:24px;">
-            <div class="form-group">
-              <input type="text" class="form-control" style="border-radius:0; border:none;" placeholder="Search">
-            </div>
-          </form>
-        </div>
+<section style="background-color:#3d8c98; height: 80px;" class="visible-xs">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <form style="padding-top:24px;">
+          <div class="form-group">
+            <input type="text" class="form-control" style="border-radius:0; border:none;" placeholder="Search">
+          </div>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
 
-  {% endblock %}
+{% endblock %}
 
-  {% block body %}
-  {% endblock %}
+{% block body %}
+{% endblock %}
 
-  {% block footer %}
-  <!-- DEBUT FOOTER -->
-  <footer style="padding-top: 28px; padding-bottom:20px; background-color:#3d8c98; color:#fff; margin-top:100px;">
-    <div class="container text-right">
-      <div class="row">
-        <div class="col-md-12">
-          <p>
-            Copyright &copy; 2017
-            <strong>Ashvin PAÏNIAYE</strong>
-          </p>
-        </div>
+{% block footer %}
+<!-- DEBUT FOOTER -->
+<footer style="padding-top: 28px; padding-bottom:20px; background-color:#3d8c98; color:#fff; margin-top:100px;">
+  <div class="container text-right">
+    <div class="row">
+      <div class="col-md-12">
+        <p>
+          Copyright &copy; 2017
+          <strong>Ashvin PAÏNIAYE</strong>
+        </p>
       </div>
     </div>
-  </footer>
-  <!-- FIN FOOTER -->
-  {% endblock %}
+  </div>
+</footer>
+<!-- FIN FOOTER -->
+{% endblock %}
 
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-  <!-- Bootstrap Core JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 {% block javascript %}{% endblock %}
 </body>
 </html>

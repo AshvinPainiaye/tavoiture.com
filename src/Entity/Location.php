@@ -20,8 +20,8 @@ class Location
   protected $_date_end;
   protected $_date;
   protected $_address;
-protected $_city;
-protected $_zip_code;
+  protected $_city;
+  protected $_zip_code;
   protected $connexion;
 
 
@@ -85,6 +85,8 @@ protected $_zip_code;
     ON c.model_id = m.id
     JOIN brand b
     ON m.brand_id = b.id
+    JOIN users u
+    ON l.users_id = u.id
     WHERE l.status_id = 3 AND date_end > :today AND c.users_id = :id";
 
     $stmt = $connexion->prepare($sql);
@@ -107,6 +109,8 @@ protected $_zip_code;
     ON c.model_id = m.id
     JOIN brand b
     ON m.brand_id = b.id
+    JOIN users u
+    ON l.users_id = u.id
     WHERE l.status_id != 4 AND l.status_id != 3 AND date_end < :today AND c.users_id = :id";
 
     $stmt = $connexion->prepare($sql);
@@ -129,6 +133,8 @@ protected $_zip_code;
     ON c.model_id = m.id
     JOIN brand b
     ON m.brand_id = b.id
+    JOIN users u
+    ON l.users_id = u.id
     WHERE l.status_id = 1 AND date_end > :today AND c.users_id = :id";
 
     $stmt = $connexion->prepare($sql);
@@ -337,35 +343,35 @@ protected $_zip_code;
 
   public function getAddress()
   {
-      return $this->_address;
+    return $this->_address;
   }
 
   public function setAddress($address)
   {
-      $this->_address = $address;
-      return $this;
+    $this->_address = $address;
+    return $this;
   }
 
   public function getCity()
   {
-      return $this->_city;
+    return $this->_city;
   }
 
   public function setCity($city)
   {
-      $this->_city = $city;
-      return $this;
+    $this->_city = $city;
+    return $this;
   }
 
   public function getZipCode()
   {
-      return $this->_zip_code;
+    return $this->_zip_code;
   }
 
   public function setZipCode($zipCode)
   {
-      $this->_zip_code = $zipCode;
-      return $this;
+    $this->_zip_code = $zipCode;
+    return $this;
   }
 
 
